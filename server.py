@@ -5,17 +5,21 @@ from flask_jwt_extended import verify_jwt_in_request, JWTManager, create_access_
 from werkzeug.utils import secure_filename
 import os
 from functools import wraps
+from dotenv import load_dotenv
+
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 
-# App configurations
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# Configurations from environment variables
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['JWT_SECRET_KEY'] = 'jwt_secret_key'
+app.config['UPLOAD_FOLDER'] = os.path.expanduser(os.getenv('UPLOAD_FOLDER'))
 app.config['JWT_TOKEN_LOCATION'] = ['cookies', 'headers']
-app.config['UPLOAD_FOLDER'] = os.path.expanduser('/home/jake/Desktop/portfolio/images')
 
 # Initialize extensions
 db = SQLAlchemy(app)
