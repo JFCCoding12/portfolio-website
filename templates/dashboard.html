@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | Jacob Folsom | Security & Software Professional</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
+
   <header>
     <nav>
       <div class="logo">Jacob Folsom | Security & Software Professional</div>
@@ -62,6 +64,75 @@
     <p>© 2024 Jacob Folsom. All rights reserved.</p>
   </footer>
 
-  <script src="path/to/your/javascript.js"></script> <!-- Link to your JS if needed -->
+  <script>
+    // Function to get CSRF token from cookie
+    function getCsrfToken() {
+      const name = 'csrf_access_token=';
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const cookieArr = decodedCookie.split(';');
+      for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.indexOf(name) === 0) {
+          return cookie.substring(name.length, cookie.length);
+        }
+      }
+      return null;
+    }
+
+    // Handle form submission without manually adding the JWT token
+    document.getElementById('project-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(document.getElementById('project-form'));
+      const csrfToken = getCsrfToken();  // Get CSRF token from cookie
+
+      const response = await fetch('/add_project', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-TOKEN': csrfToken  // Include CSRF token in the headers
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        alert('Project added successfully!');
+        fetchProjects();  // Refresh the project list after adding
+        //document.getElementById('project-form').reset();  // Reset the form
+      } else {
+        alert('Error adding project.');
+      }
+    });
+
+    // Fetch and display projects
+    async function fetchProjects() {
+      const response = await fetch('/api/projects', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const projects = await response.json();
+      const projectsList = document.getElementById('projects-list');
+      projectsList.innerHTML = ''; // Clear the old list
+      projects.forEach(project => {
+        const listItem = document.createElement('div');
+        listItem.className = 'project';
+        listItem.innerHTML = `
+          <h3>${project.title}</h3>
+          <p>${project.img ? `<img src="/images/${project.img}" alt="${project.title}" style="width: 150px; height: 100px;">` : ''}</p>
+          <p>${project.description}</p>
+          ${project.link ? `<a href="${project.link}">Project Link</a>` : ''}
+          ${project.github ? `<a href="${project.github}">GitHub Link</a>` : ''}
+          
+        `;
+        projectsList.appendChild(listItem);
+      });
+    }
+
+    // Fetch projects on page load
+    window.onload = fetchProjects;
+  </script>
+
 </body>
 </html>
