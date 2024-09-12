@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Jacob Folsom | Security & Software Professional</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">Jacob Folsom | Security & Software Professional</div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="dashboard">
+      <h1>Dashboard</h1>
+
+      <div class="content-container">
+        <h2>Your Projects</h2>
+        <div class="projects-grid" id="projects-list">
+          <!-- Projects will be loaded here using JavaScript -->
+        </div>
+      </div>
+
+      <div id="form-container">
+        <h2>Add a New Project</h2>
+        <form id="project-form" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="link">Link (optional):</label>
+            <input type="text" id="link" name="link">
+          </div>
+          <div class="form-group">
+            <label for="github">GitHub (optional):</label>
+            <input type="text" id="github" name="github">
+          </div>
+          <div class="form-group">
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+          </div>
+          <button type="submit" id="add-btn">Add Project</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2024 Jacob Folsom. All rights reserved.</p>
+  </footer>
+
+  <script src="path/to/your/javascript.js"></script> <!-- Link to your JS if needed -->
+</body>
+</html>

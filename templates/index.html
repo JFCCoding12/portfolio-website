@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jacob Folsom | Security & Software Professional</title>
+  
+  <!-- Link to external CSS file -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo">Jacob Folsom | Security & Software Professional</div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="intro">
+      <h1>Hi! I'm Jake Folsom</h1>
+      <p>A Full-Stack Developer and Cybersecurity Professional.</p>
+      <a href="#about" class="cta">Learn More</a>
+    </section>
+
+    <section id="about">
+      <div class="content-container">
+        <h2>About Me</h2>
+        <p>
+          I'm driven by a passion for learning and making a difference in the field of cybersecurity. The ever-evolving cat-and-mouse nature of cybersecurity excites me, and I’m always looking for ways to stay ahead of emerging threats. I’m highly proficient in Python, C#, JavaScript, React Native, and Expo, with additional experience in C++, x86 Assembly, and Java.
+        </p>
+        <p>
+          I've developed numerous websites and applications, both for personal use and professional projects. Constantly working on new technologies keeps me motivated, whether it's for personal innovation or solving challenges for others.
+        </p>
+        <p>
+          I hold a Bachelor's degree in Cybersecurity and Information Assurance from Norwich University, as well as a Master of Engineering in Cybersecurity Policy and Compliance from George Washington University. Additionally, I have earned my Security+ certification. These accomplishments have given me a strong technical foundation and a hunger to continue learning in this ever-changing field.
+        </p>
+        <p>
+          Outside of my professional life, I enjoy spending time on the golf course, hanging out with friends, and working on my car, which I race in autocross. My passion for cars and engineering mirrors my love for solving complex problems—whether it’s fine-tuning an engine or building secure systems, I’m always focused on performance and precision.
+        </p>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="content-container">
+        <h2>Some of My Projects</h2>
+        <div class="projects-grid" id="projects-list">
+          <!-- Projects will be loaded here using JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="content-container">
+        <h2>Contact Me</h2>
+        <p>If you'd like to get in touch, feel free to drop me an email at <a href="mailto:jacob@jacobfolsom.com">jacob@jacobfolsom.com</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2024 Jacob Folsom. All rights reserved.</p>
+  </footer>
+
+  <script type="text/javascript">
+    async function fetchProjects() {
+      const response = await fetch('/api/projects', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const projects = await response.json();
+      const projectsList = document.getElementById('projects-list');
+      projectsList.innerHTML = ''; // Clear the old list
+      projects.forEach(project => {
+        const listItem = document.createElement('div');
+        listItem.className = 'project';
+        listItem.innerHTML = `
+          <h3>${project.title}</h3>
+          <p>${project.img ? `<img src="/images/${project.img}" alt="${project.title}" style="width: 150px; height: 100px;">` : ''}</p>
+          <p>${project.description}</p>
+          <p style="padding-top: 15px;">
+          ${project.link ? `<a href="${project.link}" class="button"><i class="fas fa-desktop"></i> View Project</a>` : ''}
+          ${project.github ? `<a href="${project.github}" class="button"><i class="fab fa-github"></i> GitHub</a>` : ''}</p>
+        `;
+        projectsList.appendChild(listItem);
+      });
+    }
+
+    // Fetch projects on page load
+    window.onload = fetchProjects;
+  </script>
+
+</body>
+</html>
