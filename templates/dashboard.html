@@ -97,7 +97,7 @@
       if (response.ok) {
         alert('Project added successfully!');
         fetchProjects();  // Refresh the project list after adding
-        //document.getElementById('project-form').reset();  // Reset the form
+        document.getElementById('project-form').reset();  // Reset the form
       } else {
         alert('Error adding project.');
       }

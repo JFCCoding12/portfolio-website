@@ -62,6 +62,7 @@ class Projects(db.Model):
     link = db.Column(db.String(80), nullable=True)
     github = db.Column(db.String(80), nullable=True)
     img = db.Column(db.String(80), nullable=False)
+    featured = db.Column(db.Boolean, default=False, nullable=True)
 
     def __init__(self, title, description, link=None, github=None, img=None):
         self.title = title
